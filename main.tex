@@ -5,7 +5,9 @@
 
 
 \documentclass[addpoints]{exam}
-
+\usepackage{amsmath}
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 % Header and footer.
 \pagestyle{headandfoot}
 \runningheadrule
@@ -19,7 +21,7 @@
 \usepackage[table]{xcolor}
 \usepackage{amsfonts,graphicx,amsmath,hyperref}
 \title{Habib University\\CS-113 Discrete Mathematics\\Spring 2018\\HW 2}
-\author{$<your ID>$}  % replace with your ID, e.g. oy02945
+\author{$sm04120$}  % replace with your ID, e.g. oy02945
 \date{Due: 19h, 16th February, 2018}
 
 
@@ -49,12 +51,18 @@
 
   \begin{solution}
     % Write your solution here
+  \begin{subparts}
+  \subpart If we consider the domain and co domain to be $\mathbb{R}$, here y would undefined for negative real numbers and the function would be partial for non-negative integers
+
+  \subpart If the domain is all non-negative integers and the co domain is all real numbers, the function would be real for all values of x making the function a total function for this domain
+  \end{subparts}
   \end{solution}
   
   \part[5] Explain whether $f$ is a function from the set of all bit strings to the set of integers if $f(S)$ is the smallest $i \in \mathbb{Z}$� such that the $i$th bit of S is 1 and $f(S) = 0$ when S is the empty string. 
   
   \begin{solution}
     % Write your solution here
+    If we consider a bit string with only zeros, as the bit string has no ones and is not an empty string, $f(s)$ will be undefined hence it is not a function
   \end{solution}
 
   \part[15] For $X,Y \in S$, explain why (or why not) the following define an equivalence relation on $S$:
@@ -66,6 +74,11 @@
 
   \begin{solution}
     % Write your solution here
+    \begin{subparts}
+    \subpart If X and Y have been in class together and X=Y, X has been in a class with himself showing that this is a reflexive relation. If X and Y have been in class together that means Y and X have been in class together showing that this is a symmetric relation. If X and Y have been in class together, and Y and Z have been in class together, that does not imply that X and Z have been in class together. Since this is not a transitive relation, this is not an equivalence relation.
+    \subpart If X and Y rhyme, and X=Y then X and X rhyme hence showing that this relation is reflexive. If X and Y rhyme, Y and X can rhyme showing that this is a symmetric relation. If X and Y rhyme and Y and Z rhyme than that means X and Z rhyme showing that this is a transitive relation. Hence this is an equivalence relation.
+    \subpart If X is a subset of X and Y=X, then X is a subset of X showing that this is an reflexive relation. If X is a subset of Y and Z is a subset of X, then that means Z is a subset of Y showing that is is a transitive relation. If X is a subset of Y, Y cannot be a subset of X, if Y and X are not equal, showing that this is not a symmetric relation hence this is not an equivalence relation.
+  \end{subparts}
   \end{solution}
 
 \end{parts}
@@ -74,6 +87,8 @@
 \question[15] Let $A = f^{-1}(B)$. Prove that $f(A) \subseteq B$.
   \begin{solution}
     % Write your solution here
+    As an inverse of f exists, f is bijective. Since f is bijective, A and B are bijective which means f(A) can never be a proper subset of B, rather it can be an improper subset.
+    
   \end{solution}
 
 \question[15] Consider $[n] = \{1,2,3,...,n\}$ where $n \in \mathbb{N}$. Let $A$ be the set of subsets of $[n]$ that have even size, and let $B$ be the set of subsets of $[n]$ that have odd size. Establish a bijection from $A$ to $B$, thereby proving $|A| = |B|$. (Such a bijection is suggested below for $n = 3$) 
@@ -89,6 +104,18 @@
 
   \begin{solution}
     % Write your solution here
+    We first construct a function f(x) in which y is a random element from the set n,
+    \[ f(x)=
+    \begin{cases} 
+      x-\{y\} &  \textrm{if y exists in x}\\
+      x \cup \{y\} & \textrm{if y does not exist in x}  \\
+   \end{cases}
+    \]
+    Here,  if x is a set with even elements, it will output a set with an even number of elements. Since we are either adding or removing from the input set, we always get one output showing us that is function so injective.
+    
+    Since the output is always odd, if we go in reverse and add or subtract an element, we always get a set with even number of elements which is our domain. This means that each image has a pre image showing that this function is surjective.
+    
+    Since the function is both injective and surjective, it is bijective and since it is bijective, we have proved that the domain and co domain have the same cardinality.
   \end{solution}
   
 \question Mushrooms play a vital role in the biosphere of our planet. They also have recreational uses, such as in understanding the mathematical series below. A mushroom number, $M_n$, is a figurate number that can be represented in the form of a mushroom shaped grid of points, such that the number of points is the mushroom number. A mushroom consists of a stem and cap, while its height is the combined height of the two parts. Here is $M_5=23$:
@@ -122,10 +149,36 @@ Study the first five mushrooms carefully and make sure you can draw subsequent o
     \part[15] Derive a closed-form for $M_n$ in terms of $n$.
   \begin{solution}
     % Write your solution here
+   As we can see, the sequence of cap widths is 2,3,4,5,6...
+    
+    \[ Cap\_width(m_n)=n+1 \]
+    
+    As we can see, the sequence of cap heights is 1,2,2,3,3,3,4,4,4,4,....
+    \[ Cap\_height(M_n)=  \ceil{(1+n)/2} \]
+    
+    As we can see, the sequence of stem heights is 0,1,2,3,4,....
+    
+    \[ Stem\_height(M_n)= n-1 \]
+    
+    The number dots in the stem is equal to the stem height multiplied by 2 and so is 2*(n-1).
+    
+    The number of dots in the cap is is the sum of an arithmetic progression where the starting value is the cup width, the difference is -1, and the last term is the cup height. As the sum of an arithmetic progression is (2a+(n-1)(d))/2, the number of dots in the cap is $(2(n+1)+(\ceil{(1+n)/2}-1)(-1))*\ceil{(1+n)/2}/2$
+    
+    Thus, $M_n=(2(n+1)+(\ceil{(1+n)/2}-1)(-1))*\ceil{(1+n)/2}/2+ 2*(n-1)$
+
+    
+    
   \end{solution}
     \part[5] What is the total height of the $20$th mushroom in the series? 
   \begin{solution}
     % Write your solution here
+    Total height=Stem height+Cup height
+    
+    $Stem\_height=n-1=20-1=19$
+    
+    $Cap\_height=\ceil{(1+n)/2}=\ceil{(1+20)/2}=\ceil{(21)/2}=\ceil{(10.5)}=11$
+    
+    $11+19=30$
   \end{solution}
 \end{parts}
 
@@ -154,11 +207,23 @@ The \href{http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibGen.ht
  
     \begin{solution}
     % Write your solution here
+    If we create a function f(x) where $ x \in \mathbb{Z^+}$,
+    \[ f(x)=
+    \begin{cases} 
+      1 &  \textrm{if x=1}\\
+      2 & \textrm{if x=2}  \\
+      f(x-1)+f(x-2) & \textrm{x$>$2} 
+   \end{cases}
+    \]
+    Through this function, we can see that all positive integers are being mapped to the Fibonacci series. Since each integer maps to a unique element in the Fibonacci, the function is injective. Since each element in the Fibonacci is being mapped from a unique integer, the function is surjective therefore the function is bijective and since we have proved a bijection from the set of positive integers to the Fibonacci series, we have proved that the Fibonacci series is countable.
   \end{solution}
   \part[15] Consider the Modified Wythoff as any array derived from the original, where each entry of the leading diagonal (marked in blue) of the original 2D-Array is replaced with an integer that does not occur in that row. Prove that the Modified Wythoff Array is countable. 
 
   \begin{solution}
     % Write your solution here
+    Every row in the Wythoff array is a Fibonnaci sequence. As we have proved in part (a) that the Fibonacci series is countable, every row of the Wythoff is countable, as every row is a modified Fibonacci series. If we replace each leading diagonal in each row, we will be replacing each with a number not present in the row, meaning every element in the row will be a unique number. Because of this, each modified row will still remain countable and bijective with $\mathbb{Z^+}$
+    
+    If we take the cartesian product of $\mathbb{Z^+}$, $\mathbb{Z^+} \times \mathbb{Z^+}$, we can see each tuple in $\mathbb{Z^+} \times \mathbb{Z^+}$ as (a,b). a can be seen as the row number and b can be seen as the column number. With this we can establish a bijection between $\mathbb{Z^+} \times \mathbb{Z^+}$ and the Wythoff array similiar to how we did it in part (a). As each element of the Wythoff array has a different column number and row number, their is a surjection between $\mathbb{Z^+} \times \mathbb{Z^+}$ and the Wythoff. As we have already established that each row will have no repeating elements, if an element does repeat in the Wythoff, it will be in a different column and hence will be related to a different tuple of $\mathbb{Z^+} \times \mathbb{Z^+}$, thus establishing an injection. As we have established both and injection and surjection, we can say that the Wythoff array is bijective with \textbf{$\mathbb{Z^+} \times \mathbb{Z^+}$}. As $\mathbb{Z^+}$ is countable, $\mathbb{Z^+} \times \mathbb{Z^+}$ is also countable and since we have established a bijection between the Wythoff and $\mathbb{Z^+} \times \mathbb{Z^+}$, we can safely say that the wythoff is countable.
   \end{solution}
 \end{parts}
 
